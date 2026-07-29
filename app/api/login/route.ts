@@ -18,11 +18,17 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
+if (!user.password) {
+  return Response.json(
+    { error: "Invalid credentials" },
+    { status: 401 }
+  );
+}
 
-    const validPassword = await bcrypt.compare(
-      password,
-      user.password
-    );
+const validPassword = await bcrypt.compare(
+  password,
+  user.password
+);
 
     if (!validPassword) {
       return NextResponse.json(
